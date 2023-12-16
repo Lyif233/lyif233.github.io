@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <style>
+        p {
+            color: black;
+            font-size: 16px;
+        }
+
+        #output {
+            color: black;
+            font-size: 36px;
+            background-color: #00000000;
+            border-style: dashed;
+            border-color: #000000ff;
+            border-width: 1px;
+        }
+    </style>
+    <link rel="shortcut icon" href="/images/Lyif233.ico">
+</head>
+
+<body>
+    <title>资源码转换</title>
+    <h1>资源码转换</h1>
+    <p>请在下方输入本期英语报末尾留下的上一期资源码：</p>
+    <p>tcd<input id="input"> <button type="button" onclick="myFunction()">提交</button></p>
+    <p>*若结果为tcdNaN，则解析失败</p>
+    <p>解析结果：
+    <p id="output"><br /></p>
+    <p>快速打开 <a href="https://www.xyybs.com/index.php?m=search&c=go">《学英语》报社 资源码快速定位</a></p>
+</body>
+
+<!--第一次上手JavaScript，不知道有没有办法改进或者压缩-->
+<script>
+    function myFunction() {
+        var input16 = document.getElementById("input").value, text; //输入16进制
+        var input10 = parseInt(input16, 16), text; //转10进制
+        var output10 = input10 - 10; //输入减10
+        var output16 = (output10.toString(16)); //输出转16进制
+        document.getElementById("output").innerHTML = "tcd" + output16;
+    }
+</script>
+
+</html>
