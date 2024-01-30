@@ -33,11 +33,11 @@
 <!--第一次上手JavaScript，不知道有没有办法改进或者压缩-->
 <script>
     function myFunction() {
-        var input16 = document.getElementById("input").value, text; //输入16进制
+        var input16 = document.getElementById("input").value, text; //获取输入16进制
         var input10 = parseInt(input16, 16), text; //转10进制
         var output10 = input10 - 10; //输入减10
         var output16 = (output10.toString(16)); //输出转16进制
-        document.getElementById("output").innerHTML = "tcd" + output16;
+        document.getElementById("output").innerHTML = "tcd" + output16; //显示运算结果
     }
 </script>
 
