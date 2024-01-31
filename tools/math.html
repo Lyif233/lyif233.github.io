@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <style>
+        p {
+            color: black;
+            font-size: 16px;
+        }
+
+        #question {
+            color: black;
+            font-size: 36px;
+            background-color: #00000000;
+            border-style: dashed;
+            border-color: #000000ff;
+            border-width: 1px;
+        }
+    </style>
+    <link rel="shortcut icon" href="/images/Lyif233.ico">
+</head>
+
+<body>
+    <title>速算达人！</title>
+    <h1>资源码转换</h1>
+    <p id="question"></p>
+    <p><button type="button" onclick="question()">出题</button></p>
+    <p><button type="button" onclick="less()"><</button> <button type="button" onclick="yes()">=</button> <button type="button"
+                    onclick="more()">></button></p>
+    <p id="output"></p>
+</body>
+
+<script>
+        var a
+        var b
+        var c
+    function question() {
+        a = Math.floor((Math.random() * 10) + 1);
+        b = Math.floor((Math.random() * 10) + 1);
+        c = Math.floor((Math.random() * 20) + 1);
+        document.getElementById("question").innerHTML = a + "+" + b + " " + c
+    }
+    function less() {
+        if (a + b < c) {
+            document.getElementById("output").innerHTML = "Right"
+        }
+        else {
+            document.getElementById("output").innerHTML = "Wrong"
+        }
+    }
+    function yes() {
+        if (a + b == c) {
+            document.getElementById("output").innerHTML = "Right"
+        }
+        else {
+            document.getElementById("output").innerHTML = "Wrong"
+        }
+    }
+    function more() {
+        if (a + b > c) {
+            document.getElementById("output").innerHTML = "Right"
+        }
+        else {
+            document.getElementById("output").innerHTML = "Wrong"
+        }
+    }
+</script>
+
+</html>
