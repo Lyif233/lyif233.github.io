@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古诗文 | 离什么帆的网站</title>
+</head>
+<body>
+    <h1>古诗文 都在这了</h1>
+    <script>
+        // 使用 JavaScript 动态生成图片元素
+        for (let i = 1; i <= 21; i++) {
+            const img = document.createElement('img');
+            img.src = "/images/gushiwen/" + (i < 10 ? "0" + i : i) + ".jpg";
+            img.alt = "Image " + i;
+            document.body.appendChild(img);
+        }
+    </script>
+</body>
+</html>
