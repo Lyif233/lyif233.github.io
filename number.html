@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘数字破译器</title>
+    <style>
+    /* CSS部分用了DeepSeek 蒸馍，你不服气？ */
+    
+        /* 这个样式还有点背景在里面的 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://i.pixiv.re/c/600x1200_90_webp/img-master/img/2025/02/20/21/38/13/127449809_p0_master1200.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        /* CSS笑传之创层模 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(1px); /* 搞点背景模糊效果 */
+            background-color: rgba(255, 255, 255, 0.1); /* 半透明蒙版 */
+            z-index: -1; /* 让蒙版上不去下不来卡这里 */
+        }
+        
+        /* 主题容器 */
+        .container {
+            background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            margin: 1rem; /* 和边缘贴贴可不好 */
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 6rem;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+            resize: none; /* 不允许调整大小 */
+        }
+        
+        .result-display {
+            margin: 1rem 0;
+            font-size: 1rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .result-display span {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .copy-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        button.pixiv {
+            flex: 1;
+            background-color: #0096fa;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        button.jmcomic {
+            flex: 1;
+            background-color: #ff7a00;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .error-message {
+            color: #ff4444;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .button-group {
+                flex-direction: column;
+            }
+        }
+        
+    </style>
+    <link rel="shortcut icon" href="/images/Lyif233.ico">
+</head>
+
+<body>
+<!--HTML部分用了DeepSeek 蒸馍，你不服气？-->
+
+    <div class="container">
+        <div class="input-group">
+            <textarea id="inputField">「本魔不語，只是將書緩緩翻至第350頁。她吟誦23與4號咒文，獻祭了自己的靈魂，喚醒了沉睡的星辰。」</textarea>
+            <div class="result-display">
+                <span id="resultDisplay">识别结果：350234</span>
+                <button class="copy-btn" onclick="copyToClipboard()">复制</button>
+            </div>
+            <div class="button-group">
+                <button class="pixiv" onclick="handleRedirect('artworks')">P站作品</button>
+                <button class="pixiv" onclick="handleRedirect('user')">P站用户</button>
+                <button class="jmcomic" onclick="handleRedirect('jmcomic')">禁漫车号</button>
+            </div>
+            <div id="errorMessage" class="error-message">请输入有效的文本！</div>
+        </div>
+    </div>
+
+    <script>
+    // JavaScript部分用了DeepSeek 蒸馍，你不服气？
+        function extractNumber() {
+            const inputText = document.getElementById('inputField').value;
+            return inputText.replace(/\D/g, '');
+        }
+
+        function updateResultDisplay() {
+            const num = extractNumber();
+            const resultDisplay = document.getElementById('resultDisplay');
+            resultDisplay.textContent = `识别结果：${num || '无'}`;
+        }
+
+        function handleRedirect(type) {
+            const num = extractNumber();
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!num) {
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            const url = {
+                artworks: 'https://www.pixiv.net/artworks/',
+                user: 'https://www.pixiv.net/users/',
+                jmcomic: 'https://18comic.vip/album/'
+            };
+
+            window.location.href = `${url[type]}${num}`;
+        }
+
+        function copyToClipboard() {
+            const num = extractNumber();
+            if (num) {
+                navigator.clipboard.writeText(num)
+                    .then(() => alert('已复制: ' + num))
+                    .catch(() => alert('复制失败惹，请手动复制！'));
+            } else {
+                alert('没有可复制的内容！');
+            }
+        }
+
+        // 实时更新识别结果
+        document.getElementById('inputField').addEventListener('input', function() {
+            updateResultDisplay();
+            document.getElementById('errorMessage').style.display = 'none';
+            this.style.height = 'auto'; // 重置高度
+            this.style.height = (this.scrollHeight) + 'px'; // 根据内容调整高度
+        });
+
+        // 初始化显示
+        const textarea = document.getElementById('inputField');
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    </script>
+</body>
+<!--你就说是不是3A大作吧-->
+</html>
+
+
+
+<!--本子魔法使小姐的脚，小小的，香香的不像手经常使用来得灵活，但有一种独特的可爱的笨拙嫩嫩的脚丫光滑细腻，凌莹剔透，看得见皮肤下面细细的血管与指甲之下粉白的月牙 再高冷的女生小脚也是敏感的害羞的，轻轻挠一挠，她就摇身一变成为娇滴滴的女孩，脚丫像是一把钥匙，轻轻掌握它就能打开女孩子的心灵-->
