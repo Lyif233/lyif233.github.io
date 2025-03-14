@@ -53,7 +53,7 @@
         
         textarea {
             width: 100%;
-            height: 6rem;
+            height: 7rem;
             padding: 0.8rem;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -148,7 +148,7 @@
 
     <div class="container">
         <div class="input-group">
-            <textarea id="inputField">「本魔不語，只是將書緩緩翻至第350頁。她吟誦23與4號咒文，獻祭了自己的靈魂，喚醒了沉睡的星辰。」</textarea>
+            <textarea id="inputField" placeholder="「本魔不語，只是將書緩緩翻至第350頁。她吟誦23與4號咒文，獻祭了自己的靈魂，喚醒了沉睡的星辰。」"></textarea>
             <div class="result-display">
                 <span id="resultDisplay">识别结果：350234</span>
                 <button class="copy-btn" onclick="copyToClipboard()">复制</button>
@@ -164,59 +164,69 @@
 
     <script>
     // JavaScript部分用了DeepSeek 蒸馍，你不服气？
-        function extractNumber() {
-            const inputText = document.getElementById('inputField').value;
-            return inputText.replace(/\D/g, '');
+    function extractNumber() {
+        const inputText = document.getElementById('inputField').value;
+
+        // 如果 textarea 为空，返回默认值 350234
+        if (inputText.trim() === '') {
+            return '350234';
         }
 
-        function updateResultDisplay() {
-            const num = extractNumber();
-            const resultDisplay = document.getElementById('resultDisplay');
-            resultDisplay.textContent = `识别结果：${num || '无'}`;
+        // 提取数字
+        const num = inputText.replace(/\D/g, '');
+
+        // 如果提取不到数字，返回“无”
+        return num || '无';
+    }
+
+    function updateResultDisplay() {
+        const num = extractNumber();
+        const resultDisplay = document.getElementById('resultDisplay');
+        resultDisplay.textContent = `识别结果：${num}`;
+    }
+
+    function handleRedirect(type) {
+        const num = extractNumber();
+        const errorMessage = document.getElementById('errorMessage');
+
+        if (num === '无') {
+            errorMessage.style.display = 'block';
+            return;
         }
 
-        function handleRedirect(type) {
-            const num = extractNumber();
-            const errorMessage = document.getElementById('errorMessage');
+        const url = {
+            artworks: 'https://www.pixiv.net/artworks/',
+            user: 'https://www.pixiv.net/users/',
+            jmcomic: 'https://18comic.vip/album/'
+        };
 
-            if (!num) {
-                errorMessage.style.display = 'block';
-                return;
-            }
+        window.location.href = `${url[type]}${num}`;
+    }
 
-            const url = {
-                artworks: 'https://www.pixiv.net/artworks/',
-                user: 'https://www.pixiv.net/users/',
-                jmcomic: 'https://18comic.vip/album/'
-            };
-
-            window.location.href = `${url[type]}${num}`;
+    function copyToClipboard() {
+        const num = extractNumber();
+        if (num !== '无') {
+            navigator.clipboard.writeText(num)
+                .then(() => alert('已复制到剪贴板: ' + num))
+                .catch(() => alert('复制失败，请手动复制！'));
+        } else {
+            alert('没有可复制的内容！');
         }
+    }
 
-        function copyToClipboard() {
-            const num = extractNumber();
-            if (num) {
-                navigator.clipboard.writeText(num)
-                    .then(() => alert('已复制: ' + num))
-                    .catch(() => alert('复制失败惹，请手动复制！'));
-            } else {
-                alert('没有可复制的内容！');
-            }
-        }
+    // 实时更新识别结果
+    document.getElementById('inputField').addEventListener('input', function() {
+        updateResultDisplay();
+        document.getElementById('errorMessage').style.display = 'none';
 
-        // 实时更新识别结果
-        document.getElementById('inputField').addEventListener('input', function() {
-            updateResultDisplay();
-            document.getElementById('errorMessage').style.display = 'none';
-            this.style.height = 'auto'; // 重置高度
-            this.style.height = (this.scrollHeight) + 'px'; // 根据内容调整高度
-        });
+        // 动态调整 textarea 高度
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
 
-        // 初始化显示
-        const textarea = document.getElementById('inputField');
-        textarea.style.height = 'auto';
-        textarea.style.height = (textarea.scrollHeight) + 'px';
-    </script>
+    // 初始化显示
+    updateResultDisplay();
+</script>
 </body>
 <!--你就说是不是3A大作吧-->
 </html>
